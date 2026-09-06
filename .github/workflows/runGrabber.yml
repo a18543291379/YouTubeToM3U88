@@ -3,26 +3,23 @@ name: LinkGrabber
 on:
   schedule:
     - cron: '0 */3 * * *'
-
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
+
 jobs:
-
   runCode:
-
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write    # 关键：授予写入权限
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4   # 升级到 v4，解决 Node.js 警告
 
       - name: Grab Link
-
         run: |
           git config --global user.email "dp247@hll.localhost"
           git config --global user.name "dp247"
           chmod +x exec_grabber.sh && ./exec_grabber.sh
           git add -A
-          git commit -m "./youtubeLink.txt is updated."
-          git push
+          git commit -m "Auto-update youtube.m3u8" || echo "没有需要提交的更改"
+          git push --force-with-lease
