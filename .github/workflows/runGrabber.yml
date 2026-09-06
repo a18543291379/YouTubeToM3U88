@@ -11,10 +11,10 @@ jobs:
   runCode:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # 关键：授予写入权限
+      contents: write
     steps:
-      - uses: actions/checkout@v4   # 升级到 v4，解决 Node.js 警告
-
+      - uses: actions/checkout@v5   # 从 v4 升级到 v5，原生支持 Node.js 24
+      
       - name: Grab Link
         run: |
           git config --global user.email "dp247@hll.localhost"
